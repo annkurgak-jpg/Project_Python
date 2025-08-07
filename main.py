@@ -1,5 +1,5 @@
 from mysql_connector import search_by_keyword, search_by_genre_and_years, get_all_genres, get_min_max_years
-from log_writer import safe_log
+from log_writer import log_search
 from log_stats import show_statistics
 from formatter import print_movies
 
@@ -37,7 +37,7 @@ def main() -> None:
                     print("No more results found.")
                     break
 
-                safe_log("keyword", {"keyword": keyword}, len(movies))
+                log_search("keyword", {"keyword": keyword}, len(movies))
                 print_movies(movies)
 
                 next_page = input("\nShow next 10 movies? (1 - yes, 2 - back to menu): ")
@@ -108,7 +108,7 @@ def main() -> None:
                                 print(f"❗ Year must be between {min_year} and {max_year}. Please try again.")
                                 continue
 
-                            raw_to = input(f"To year   (press Enter to use {max_year}): ").strip()
+                            raw_to = input(f"To year (press Enter to use {max_year}): ").strip()
                             year_to = max_year if raw_to == '' else int(raw_to)
                             if not (min_year <= year_to <= max_year):
                                 print(f"❗ Year must be between {min_year} and {max_year}. Please try again.")
@@ -137,7 +137,7 @@ def main() -> None:
                     print("No more results found.")
                     break
 
-                safe_log("genre&years", {
+                log_search("genre&years", {
                     "genre": selected_genre,
                     "year_from": year_from,
                     "year_to": year_to

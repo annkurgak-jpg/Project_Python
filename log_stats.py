@@ -17,6 +17,7 @@ def show_statistics() -> None:
 
     choice = input("Enter number (1 or 2): ").strip()
 
+    # статистика на уникальные запросы
     if choice == "1":
         try:
             results = get_recent_requests()
@@ -38,6 +39,7 @@ def show_statistics() -> None:
         except (KeyError, PyMongoError) as e:
             print(f"Error retrieving recent requests: {e}")
 
+    # статистика на популярные запросы
     elif choice == "2":
         try:
             results = get_popular_requests()

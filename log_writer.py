@@ -4,9 +4,9 @@ from pymongo.errors import PyMongoError
 from config import MONGODB_URI, MONGODB_DB, MONGODB_COLLECTION
 
 
-def safe_log(search_type: str, params: dict, results_count: int) -> bool:
+def log_search(search_type: str, params: dict, results_count: int) -> bool:
     """
-    Безопасно сохраняет информацию о поисковом запросе в MongoDB.
+    Сохраняет информацию о поисковом запросе в MongoDB.
 
     Args:
         search_type (str): Тип поиска ('keyword' или 'genre_years').
