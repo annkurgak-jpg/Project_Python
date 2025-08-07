@@ -7,7 +7,7 @@ from config import MYSQL_CONFIG, DEFAULT_LIMIT
 
 def connect_mysql() -> Optional[Connection]:
     """
-    Устанавливает соединение с базой данных MySQL, используя параметры из конфигурации.
+    Устанавливает соединение с базой данных MySQL, используя параметры из config.py.
 
     :return: Объект соединения или None в случае ошибки подключения.
     """
@@ -51,12 +51,12 @@ def with_mysql_connection(func: Callable[..., Any]) -> Callable[..., Any]:
 @with_mysql_connection
 def search_by_keyword(cursor: Cursor, keyword: str, offset: int = 0, limit: int = DEFAULT_LIMIT) -> List[Dict]:
     """
-    Выполняет поиск фильмов по ключевому слову в названии.
+    Выполняет поиск фильмов по ключевому слову.
 
     :param cursor: Курсор базы данных (автоматически передаётся декоратором).
     :param keyword: Ключевое слово для поиска в названии фильма.
-    :param offset: Смещение для пагинации.
-    :param limit: Количество фильмов для вывода (в config).
+    :param offset: Смещение для постраничного вывода.
+    :param limit: Количество фильмов для вывода(константа в config).
     :return: Список фильмов, удовлетворяющих критерию.
     """
     cursor.execute("""
@@ -92,7 +92,7 @@ def search_by_genre_and_years(
     :param year_from: Начальный год диапазона.
     :param year_to: Конечный год диапазона.
     :param offset: Смещение (для постраничного вывода).
-    :param limit: Лимит количества фильмов на страницу(в config).
+    :param limit: Лимит количества фильмов на страницу(константа в config).
     :return: Список фильмов по жанру и диапазону лет.
     """
     cursor.execute("""
@@ -129,7 +129,7 @@ def get_min_max_years(cursor: Cursor) -> Tuple[Optional[int], Optional[int]]:
     Определяет минимальный и максимальный год выпуска фильмов.
 
     :param cursor: Курсор базы данных.
-    :return: Кортеж из минимального и максимального года (или None в случае ошибки).
+    :return: Кортеж из минимального и максимального года.
     """
     cursor.execute("SELECT MIN(release_year) as min_year, MAX(release_year) as max_year FROM film")
     years = cursor.fetchone()

@@ -37,7 +37,13 @@ def main() -> None:
                     print("No more results found.")
                     break
 
-                log_search("keyword", {"keyword": keyword}, len(movies))
+                try:
+                    log_search("keyword", {"keyword": keyword}, len(movies))
+                except RuntimeError as e:
+                    print(e)
+                    print("❌ Program stopped due to logging failure.")
+                    return
+
                 print_movies(movies)
 
                 next_page = input("\nShow next 10 movies? (1 - yes, 2 - back to menu): ")
@@ -137,11 +143,16 @@ def main() -> None:
                     print("No more results found.")
                     break
 
-                log_search("genre&years", {
-                    "genre": selected_genre,
-                    "year_from": year_from,
-                    "year_to": year_to
-                }, len(movies))
+                try:
+                    log_search("genre&years", {
+                        "genre": selected_genre,
+                        "year_from": year_from,
+                        "year_to": year_to
+                    }, len(movies))
+                except RuntimeError as e:
+                    print(e)
+                    print("❌ Program stopped due to logging failure.")
+                    return
 
                 print_movies(movies)
 
